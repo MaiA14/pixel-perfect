@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Game dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet/less" type="text/css" href="/assets/style.less">
+    <script src="//cdn.jsdelivr.net/npm/less"></script>
+    <script src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/js/okta-sign-in.min.js"
+    type="text/javascript"></script>
+<link href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/css/okta-sign-in.min.css"
+    type="text/css" rel="stylesheet" />
+<link href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/css/okta-theme.css"
+    type="text/css" rel="stylesheet" />
+</script>
+</head>
+
+<body>
+    <!-- where the sign-in form will be displayed -->
+    <div id="okta-login-container"></div>
+</div>
+<script type="text/javascript">
+  var oktaSignIn = new OktaSignIn({
+    baseUrl: "https://dev-709417.okta.comDashboard",
+    clientId: "0oa13a3oxlcBZl4aG4x7",
+    authParams: {
+      issuer: "https://dev-709417.okta.comDashboard",
+      responseType: ['token', 'id_token'],
+      display: 'page'
+    }
+  });
+
+  if (oktaSignIn.token.hasTokensInUrl()) {
+    oktaSignIn.token.parseTokensFromUrl(
+      // If we get here, the user just logged in.
+      function success(res) {
+        var accessToken = res[0];
+        var idToken = res[1];
+
+        oktaSignIn.tokenManager.add('accessToken', accessToken);
+        oktaSignIn.tokenManager.add('idToken', idToken);
+
+        window.location.hash='';
+        document.getElementById("messageBox").innerHTML = "Hello, " + idToken.claims.email + "! You just logged in! :)";
+      },
+      function error(err) {
+        console.error(err);
+      }
+    );
+  } else {
+    oktaSignIn.session.get(function (res) {
+      // If we get here, the user is already signed in.
+      if (res.status === 'ACTIVE') {
+        document.getElementById("messageBox").innerHTML = "Hello, " + res.login + "! You are *still* logged in! :)";
+        return;
+      }
+      oktaSignIn.renderEl(
+        { el: '#okta-login-container' },
+        function success(res) {},
+        function error(err) {
+          console.error(err);
+        }
+      );
+    });
+  }
+</script>
+    <div class="container c-margin-top">
+        <div class="row">
+            <div class="col-lg-7 col-sm-12">
+                <div class="c-border c-left-top">
+                    <div class="triangle-corner">
+                        <div class="stripes"></div>
+                    </div>
+                    <div class="title">Activated</div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-sm-12">
+                <div class="c-border c-right-top">
+                    <div class="triangle-corner">
+                        <div class="stripes"></div>
+                    </div>
+                    <div class="flex-col">
+                        <div class="title">Radar</div>
+                        <div class="sub-title">01-87R</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-sm-12">
+                <div class="c-border c-right-bottom">
+                    <div class="flex">
+                        <div class="star-data-container">
+                            <img src="./assets/imgs/star.png" class="star-pic"></img>
+                        </div>
+                        <div class="star-data-container">
+                            <div class="star-data-title">
+                                <div class="title">Location 01</div>
+                                <div class="sub-title">Interactive</div>
+                            </div>
+                            <div class="star-c-text spacer-top">Lorem ipsummpoUt enim ad minim veniam, quis nis</div>
+                            <div class="star-c-text">Lorem ipsummpoUt enim ad minim veniam, quis nis</div>
+                            <div class="star-c-text-big">Lorem ipsummpoUt enim ad minim veniam, quis nis</div>
+                            <div class="star-c-text spacer-bottom">Lorem ipsummpoUt enim ad minim veniam, quis nis</div>
+                        </div>
+                        <div class="star-data-container spacer-left">
+                            <div class="flex">
+                                <img src="assets/imgs/cog.png" class="cog-pic" alt="cog-pic">
+                                <img src="assets/imgs/cog.png" class="cog-pic" alt="cog-pic">
+                                <img src="assets/imgs/cog.png" class="cog-pic" alt="cog-pic">
+                            </div>
+                            <div class="bottom-text">Lvl 015</div>
+                            <img src="./assets/imgs/dots.png" class="dots-pic" alt="dots-pic"></img>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div class="c-border c-bottom">
+                    <div class="title">
+                        Level 01/15
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
